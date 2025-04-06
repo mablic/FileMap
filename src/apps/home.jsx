@@ -11,15 +11,20 @@ const Home = () => {
   const [selectedTemplate, setSelectedTemplate] = useState('');
   const [isReviewMode, setIsReviewMode] = useState(false);
   const [processedData, setProcessedData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const onDrop = useCallback(async (acceptedFiles) => {
     try {
+      setIsLoading(true);
       const file = acceptedFiles[0];
       const jsonData = await readExcelFile(file);
       setPreviewData(jsonData);
     } catch (error) {
       console.error('Error reading file:', error);
       // Handle error appropriately
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
@@ -38,18 +43,34 @@ const Home = () => {
     setProcessedData(null);
   };
 
-  const handleNextStep = () => {
-    const template = getTemplateByName(templateData.template, selectedTemplate);
-    if (template && previewData) {
-      const processed = processTemplate(previewData, template);
-      setProcessedData(processed);
-      setIsReviewMode(true);
+  const handleNextStep = async () => {
+    setIsProcessing(true);
+    try {
+      const template = getTemplateByName(templateData.template, selectedTemplate);
+      if (template && previewData) {
+        const processed = processTemplate(previewData, template);
+        setProcessedData(processed);
+        setIsReviewMode(true);
+      }
+    } finally {
+      setIsProcessing(false);
     }
   };
 
   const handlePrevStep = () => {
     setIsReviewMode(false);
   };
+
+  if (isLoading) {
+    return (
+      <div className="pt-20 min-h-screen flex flex-col items-center justify-center bg-gray-50">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <p className="text-lg text-gray-600">Loading Excel file...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (previewData) {
     return (
@@ -82,14 +103,17 @@ const Home = () => {
                   </button>
                   <button
                     onClick={handleNextStep}
-                    disabled={!selectedTemplate}
-                    className={`px-4 py-2 text-sm font-medium text-white rounded-md transition-colors ${
-                      selectedTemplate
+                    disabled={!selectedTemplate || isProcessing}
+                    className={`px-4 py-2 text-sm font-medium text-white rounded-md transition-colors flex items-center gap-2 ${
+                      selectedTemplate && !isProcessing
                         ? 'bg-blue-600 hover:bg-blue-700'
                         : 'bg-blue-300 cursor-not-allowed'
                     }`}
                   >
-                    Next Step
+                    {isProcessing && (
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                    )}
+                    {isProcessing ? 'Processing...' : 'Next Step'}
                   </button>
                 </div>
               </div>
