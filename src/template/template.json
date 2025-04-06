@@ -1,0 +1,31 @@
+{
+  "template": [
+    {
+      "name": "Template 1",
+      "description": "This is the description of the template",
+      "headerRow": 1,
+      "data": [
+        {
+          "name": "New Country",
+          "from": "input",
+          "value": "C"
+        },
+        {
+          "name": "New Product",
+          "from": "input",
+          "value": "D"
+        },
+        {
+          "name": "New Units",
+          "from": "input",
+          "value": "E"
+        },
+        {
+          "name": "New Price",
+          "from": "input",
+          "value": "F"
+        }
+      ]
+    }
+  ]
+}
