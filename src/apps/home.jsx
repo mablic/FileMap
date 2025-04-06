@@ -49,16 +49,23 @@ const Home = () => {
       const template = getTemplateByName(templateData.template, selectedTemplate);
       if (template && previewData) {
         const processed = processTemplate(previewData, template);
+        await new Promise(resolve => setTimeout(resolve, 500)); // Add small delay to ensure UI updates
         setProcessedData(processed);
         setIsReviewMode(true);
       }
     } finally {
-      setIsProcessing(false);
+      setTimeout(() => {
+        setIsProcessing(false);
+      }, 500);
     }
   };
 
   const handlePrevStep = () => {
-    setIsReviewMode(false);
+    setIsProcessing(true);
+    setTimeout(() => {
+      setIsReviewMode(false);
+      setIsProcessing(false);
+    }, 500);
   };
 
   if (isLoading) {
@@ -78,74 +85,75 @@ const Home = () => {
   if (previewData) {
     return (
       <div className="min-h-screen bg-gray-50 pt-20 px-4">
-        <div className="w-11/12 mx-auto">
-          {!isReviewMode ? (
-            <>
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-4">
-                  <label className="text-sm font-medium text-gray-700">Select Template:</label>
-                  <select
-                    value={selectedTemplate}
-                    onChange={(e) => setSelectedTemplate(e.target.value)}
-                    className="block w-64 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  >
-                    <option value="">Choose a template...</option>
-                    {templateData.template.map((template, index) => (
-                      <option key={index} value={template.name}>
-                        {template.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="flex gap-4">
-                  <button
-                    onClick={handleCancel}
-                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={handleNextStep}
-                    disabled={!selectedTemplate || isProcessing}
-                    className={`px-4 py-2 text-sm font-medium text-white rounded-md transition-colors flex items-center gap-2 ${
-                      selectedTemplate && !isProcessing
-                        ? 'bg-blue-600 hover:bg-blue-700'
-                        : 'bg-blue-300 cursor-not-allowed'
-                    }`}
-                  >
-                    {isProcessing && (
-                      <div className="relative w-4 h-4">
-                        <div className="absolute top-0 left-0 w-full h-full border-2 border-white/30 rounded-full"></div>
-                        <div className="absolute top-0 left-0 w-full h-full border-2 border-white rounded-full animate-[spin_0.8s_linear_infinite] border-t-transparent"></div>
-                      </div>
-                    )}
-                    {isProcessing ? 'Processing...' : 'Next Step'}
-                  </button>
-                </div>
+        {isProcessing ? (
+          <div className="pt-20 min-h-screen flex flex-col items-center justify-center bg-gray-50 fixed inset-0">
+            <div className="flex flex-col items-center space-y-4">
+              <div className="relative w-12 h-12">
+                <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-100 rounded-full"></div>
+                <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-600 rounded-full animate-[spin_0.8s_linear_infinite] border-t-transparent"></div>
               </div>
-              <div className="relative">
-                {isProcessing && (
-                  <div className="absolute inset-0 bg-gray-50/80 z-50 flex items-center justify-center">
-                    <div className="flex flex-col items-center space-y-4">
-                      <div className="relative w-12 h-12">
-                        <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-100 rounded-full"></div>
-                        <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-600 rounded-full animate-[spin_0.8s_linear_infinite] border-t-transparent"></div>
-                      </div>
-                      <p className="text-lg text-gray-600">Processing data...</p>
-                    </div>
+              <p className="text-lg text-gray-600">Processing data...</p>
+            </div>
+          </div>
+        ) : (
+          <div className="w-11/12 mx-auto">
+            {!isReviewMode ? (
+              <>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-4">
+                    <label className="text-sm font-medium text-gray-700">Select Template:</label>
+                    <select
+                      value={selectedTemplate}
+                      onChange={(e) => setSelectedTemplate(e.target.value)}
+                      className="block w-64 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    >
+                      <option value="">Choose a template...</option>
+                      {templateData.template.map((template, index) => (
+                        <option key={index} value={template.name}>
+                          {template.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
-                )}
-                <Preview data={previewData} />
-              </div>
-            </>
-          ) : (
-            <Review 
-              data={processedData}
-              onPrevStep={handlePrevStep}
-              onCancel={handleCancel}
-            />
-          )}
-        </div>
+                  <div className="flex gap-4">
+                    <button
+                      onClick={handleCancel}
+                      className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleNextStep}
+                      disabled={!selectedTemplate || isProcessing}
+                      className={`px-4 py-2 text-sm font-medium text-white rounded-md transition-colors flex items-center gap-2 ${
+                        selectedTemplate && !isProcessing
+                          ? 'bg-blue-600 hover:bg-blue-700'
+                          : 'bg-blue-300 cursor-not-allowed'
+                      }`}
+                    >
+                      {isProcessing && (
+                        <div className="relative w-4 h-4">
+                          <div className="absolute top-0 left-0 w-full h-full border-2 border-white/30 rounded-full"></div>
+                          <div className="absolute top-0 left-0 w-full h-full border-2 border-white rounded-full animate-[spin_0.8s_linear_infinite] border-t-transparent"></div>
+                        </div>
+                      )}
+                      {isProcessing ? 'Processing...' : 'Next Step'}
+                    </button>
+                  </div>
+                </div>
+                <div className="relative">
+                  <Preview data={previewData} />
+                </div>
+              </>
+            ) : (
+              <Review 
+                data={processedData}
+                onPrevStep={handlePrevStep}
+                onCancel={handleCancel}
+              />
+            )}
+          </div>
+        )}
       </div>
     );
   }
