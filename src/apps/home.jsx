@@ -65,7 +65,10 @@ const Home = () => {
     return (
       <div className="pt-20 min-h-screen flex flex-col items-center justify-center bg-gray-50">
         <div className="flex flex-col items-center space-y-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <div className="relative w-12 h-12">
+            <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-100 rounded-full"></div>
+            <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-600 rounded-full animate-[spin_0.8s_linear_infinite] border-t-transparent"></div>
+          </div>
           <p className="text-lg text-gray-600">Loading Excel file...</p>
         </div>
       </div>
@@ -111,7 +114,10 @@ const Home = () => {
                     }`}
                   >
                     {isProcessing && (
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      <div className="relative w-4 h-4">
+                        <div className="absolute top-0 left-0 w-full h-full border-2 border-white/30 rounded-full"></div>
+                        <div className="absolute top-0 left-0 w-full h-full border-2 border-white rounded-full animate-[spin_0.8s_linear_infinite] border-t-transparent"></div>
+                      </div>
                     )}
                     {isProcessing ? 'Processing...' : 'Next Step'}
                   </button>
