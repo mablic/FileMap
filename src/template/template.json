@@ -24,6 +24,11 @@
           "name": "New Price",
           "from": "input",
           "value": "F"
+        },
+        {
+          "name": "New Test",
+          "from": "input",
+          "value": "AF"
         }
       ]
     }

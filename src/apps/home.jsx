@@ -54,7 +54,7 @@ const Home = () => {
   if (previewData) {
     return (
       <div className="min-h-screen bg-gray-50 pt-20 px-4">
-        <div className="w-11/12 max-w-6xl mx-auto">
+        <div className="w-11/12 mx-auto">
           {!isReviewMode ? (
             <>
               <div className="flex items-center justify-between mb-4">

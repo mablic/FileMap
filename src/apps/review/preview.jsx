@@ -1,11 +1,8 @@
 import React from 'react';
+import { getExcelColumnName } from '../../lib/template';
 
 const Preview = ({ data }) => {
   if (!data || !data[0]) return null;
-
-  const getColumnLetter = (index) => {
-    return String.fromCharCode(65 + index); // 65 is ASCII for 'A'
-  };
 
   // Function to split text into lines while preserving words
   const formatHeaderText = (text) => {
@@ -35,22 +32,21 @@ const Preview = ({ data }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden w-full">
-      <div className="overflow-x-auto">
-        <table className="w-full table-fixed">
+    <div className="bg-white rounded-lg shadow-md w-full h-[calc(100vh-200px)]">
+      <div className="overflow-x-auto overflow-y-auto h-full relative">
+        <table className="border-collapse border-2 border-gray-300">
           <thead>
             <tr className="bg-gray-50">
-              <th className="w-12 px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b sticky left-0 bg-gray-50">
+              <th className="w-12 px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-r border-gray-300 sticky left-0 top-0 bg-gray-50 z-50 shadow-[2px_2px_2px_rgba(0,0,0,0.1)] before:content-[''] before:absolute before:left-0 before:top-[-1px] before:w-full before:h-[1px] before:bg-gray-50">
                 #
               </th>
               {data[0].map((header, index) => (
                 <th
                   key={index}
-                  className="px-2 py-2 text-left font-medium text-gray-500 uppercase tracking-wider border-b min-w-[150px]"
-                  style={{ width: `${Math.max(12.5, 100 / data[0].length)}%` }}
+                  className="w-[200px] px-2 py-2 text-left font-medium text-gray-500 uppercase tracking-wider border-b border-r border-gray-300 sticky top-0 bg-gray-50 z-40 shadow-[0_2px_2px_rgba(0,0,0,0.1)] before:content-[''] before:absolute before:left-0 before:top-[-1px] before:w-full before:h-[1px] before:bg-gray-50"
                 >
                   <div className="flex flex-col items-center">
-                    <span className="text-blue-600 text-sm font-medium mb-1">{getColumnLetter(index)}</span>
+                    <span className="text-blue-600 text-sm font-medium mb-1">{getExcelColumnName(index)}</span>
                     <div className="flex flex-col items-center w-full">
                       {formatHeaderText(header).map((line, i) => (
                         <span 
@@ -69,16 +65,16 @@ const Preview = ({ data }) => {
               ))}
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white">
             {data.slice(1).map((row, rowIndex) => (
               <tr key={rowIndex} className="hover:bg-gray-50">
-                <td className="w-12 px-2 py-2 text-sm font-medium text-gray-500 border-r sticky left-0 bg-white">
+                <td className="w-12 px-2 py-2 text-sm font-medium text-gray-500 border-r border-gray-300 border-b border-gray-200 sticky left-0 bg-white z-30 shadow-[2px_0_2px_rgba(0,0,0,0.1)]">
                   {rowIndex + 1}
                 </td>
                 {row.map((cell, cellIndex) => (
                   <td
                     key={cellIndex}
-                    className="px-2 py-2 text-sm text-gray-500"
+                    className="w-[200px] px-2 py-2 text-sm text-gray-500 border-r border-b border-gray-200"
                   >
                     <div className="overflow-hidden text-ellipsis whitespace-nowrap">
                       {cell}
