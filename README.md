@@ -1,12 +1,58 @@
-# React + Vite
+# FileMap
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web-based application for mapping and processing Excel/CSV files with customizable templates.
 
-Currently, two official plugins are available:
+## Technology Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React + Vite
+- Tailwind CSS
+- React Router
+- Modern JavaScript/TypeScript
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Upload Excel/CSV files
+- Preview data before processing
+- Apply customizable templates
+- Review processed data
+- Export to Excel
+
+## Development
+
+This project uses Vite for fast development with HMR (Hot Module Replacement).
+
+### Getting Started
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/mablic/FileMap.git
+cd FileMap
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start development server:
+
+```bash
+npm run dev
+```
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run lint` - Run ESLint
+- `npm run preview` - Preview production build
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+MIT License
