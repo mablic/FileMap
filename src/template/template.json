@@ -8,27 +8,32 @@
         {
           "name": "New Country",
           "from": "input",
-          "value": "C"
+          "value": "C",
+          "type": "string"
         },
         {
           "name": "New Product",
           "from": "input",
-          "value": "D"
+          "value": "D",
+          "type": "string"
         },
         {
-          "name": "New Units",
+          "name": "New Date",
           "from": "input",
-          "value": "E"
+          "value": "M",
+          "type": "date"
         },
         {
           "name": "New Price",
           "from": "input",
-          "value": "F"
+          "value": "F",
+          "type": "number"
         },
         {
           "name": "New Test",
           "from": "input",
-          "value": "AF"
+          "value": "AF",
+          "type": "string"
         }
       ]
     }

@@ -14,6 +14,19 @@ const Review = ({ data, onPrevStep, onCancel }) => {
     return null;
   }
 
+  // Function to get cell class based on type
+  const getCellClass = (type) => {
+    const baseClass = "w-[200px] px-2 py-2 text-sm text-gray-500 border-r border-b border-gray-200";
+    switch (type) {
+      case 'number':
+        return `${baseClass} text-right font-mono`;
+      case 'date':
+        return `${baseClass} text-center font-mono`;
+      default:
+        return `${baseClass}`;
+    }
+  };
+
   // Function to split text into lines while preserving words
   const formatHeaderText = (text) => {
     // Split by spaces and line breaks
@@ -99,7 +112,7 @@ const Review = ({ data, onPrevStep, onCancel }) => {
                   {row.map((cell, cellIndex) => (
                     <td
                       key={cellIndex}
-                      className="w-[200px] px-2 py-2 text-sm text-gray-500 border-r border-b border-gray-200"
+                      className={getCellClass(data.types[cellIndex])}
                     >
                       <div className="overflow-hidden text-ellipsis whitespace-nowrap">
                         {cell}

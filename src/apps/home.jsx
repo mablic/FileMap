@@ -123,7 +123,20 @@ const Home = () => {
                   </button>
                 </div>
               </div>
-              <Preview data={previewData} />
+              <div className="relative">
+                {isProcessing && (
+                  <div className="absolute inset-0 bg-gray-50/80 z-50 flex items-center justify-center">
+                    <div className="flex flex-col items-center space-y-4">
+                      <div className="relative w-12 h-12">
+                        <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-100 rounded-full"></div>
+                        <div className="absolute top-0 left-0 w-full h-full border-4 border-blue-600 rounded-full animate-[spin_0.8s_linear_infinite] border-t-transparent"></div>
+                      </div>
+                      <p className="text-lg text-gray-600">Processing data...</p>
+                    </div>
+                  </div>
+                )}
+                <Preview data={previewData} />
+              </div>
             </>
           ) : (
             <Review 
